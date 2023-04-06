@@ -1,1 +1,0 @@
-# Nuxt-Assignment-2
