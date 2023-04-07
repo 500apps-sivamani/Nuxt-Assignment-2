@@ -152,32 +152,21 @@
         </div>
       </div>
     </div>
-    <div v-if="is_sidebar" :key="render">
-      <CollectionsAdd />
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const is_sidebar = ref(false);
-const render = ref(0);
+import { defineProps, defineEmits } from "vue";
 
-const AddMockDetails = () => {
-  is_sidebar.value = true;
-  render.value++;
-};
-
-const getOptions = {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoiNmZlZDJiYTgwYThkNGM0MjlhZGZiOGQ1ZTZmZTY0ODAiLCJkIjoiMTY4MDA4NCIsInIiOiJzYSIsInAiOiJmcmVlIiwiYSI6ImZpbmRlci5pbyIsImwiOiJ1czEiLCJleHAiOjE2ODMyNzk3Mjl9.5cJkrudAvTWoVRigTNcfQ321W_lOyMm-xsb9rMxuVBE`,
+const props = defineProps({
+  getTemplateData: {
+    type: Array,
   },
-};
-let getData = useAuthLazyFetch(
-  "https://v7-stark-db-orm.mercury.infinity-api.net/api/mock-interviews/?offset=0&limit=100&sort_column=id&sort_direction=desc",
-  getOptions
-);
+});
+const emit = defineEmits(["is_sidebar"]);
 
-let getTemplateData = getData.data._rawValue;
+//open sidebar for Add
+const AddMockDetails = () => {
+  emit("is_sidebar");
+};
 </script>

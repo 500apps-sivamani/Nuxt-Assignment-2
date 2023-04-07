@@ -157,7 +157,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
+
 import {
   Dialog,
   DialogPanel,
@@ -165,6 +166,8 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
+
+const emit = defineEmits(["postDatabody"]);
 
 let candidateName = ref("");
 let testType = ref("");
@@ -180,32 +183,21 @@ let modifieData = ref("");
 
 const open = ref(true);
 
+//sending body to the emit
 const postData = async () => {
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1IjoiNmZlZDJiYTgwYThkNGM0MjlhZGZiOGQ1ZTZmZTY0ODAiLCJkIjoiMTY4MDA4NCIsInIiOiJzYSIsInAiOiJmcmVlIiwiYSI6ImZpbmRlci5pbyIsImwiOiJ1czEiLCJleHAiOjE2ODMyNzk3Mjl9.5cJkrudAvTWoVRigTNcfQ321W_lOyMm-xsb9rMxuVBE`,
-    },
-    body: {
-      name: candidateName.value,
-      type: testType.value,
-      max_time_allowed: maxTime.value,
-      due_date: dueDate.value,
-      difficulty_level: level.value,
-      description: description.value,
-      questions: {},
-      multiple_attempts_allowed: attempts.value,
-      instructions: {},
-      status: status.value,
-      last_modified_date: modifieData.value,
-    },
+  let body = {
+    name: candidateName.value,
+    type: "practice",
+    max_time_allowed: maxTime.value,
+    due_date: "2023-04-07T04:56:07.759Z",
+    difficulty_level: "Easy",
+    description: description.value,
+    questions: {},
+    multiple_attempts_allowed: attempts.value,
+    instructions: {},
+    status: status.value,
+    last_modified_date: "2023-04-07T04:56:07.759Z",
   };
-  const data = await useAuthLazyFetchPost(
-    "https://v7-stark-db-orm.mercury.infinity-api.net/api/mock-interviews/",
-    options
-  );
-  open.value = false;
-  console.log("PostData", data);
+  emit("postDatabody", body);
 };
 </script>
